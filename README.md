@@ -50,5 +50,15 @@ https://developer.sumup.com/docs/api/sum-up-rest-api/
   - [Deactivate a subaccount](https://developer.sumup.com/docs/api/deactivate-a-subaccount/)
 
 
+TODO 
+- [ ] Add tests
+- [ ] Add more documentation
+- [ ] Add more examples
 
+
+
+
+Updates:
+- 2023-05-15: Added support for Authentication
+- 2023-05-15: Added support for Checkouts
 
