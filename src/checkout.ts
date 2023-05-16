@@ -22,8 +22,14 @@ export class Checkout {
             },
         });
         if (!response.ok) {
-            throw await response.json();
+            throw await {
+                url,
+                status: response.status,
+                statusText: response.statusText,
+                body: await response.text(),
+            }
         }
+        
         return await response.json() as ListCheckoutResponse;
 
     }
@@ -43,8 +49,14 @@ export class Checkout {
 
 
         if (!response.ok) {
-            throw await response.json();
+            throw await {
+                url,
+                status: response.status,
+                statusText: response.statusText,
+                body: await response.text(),
+            }
         }
+        
         return await response.json() as CheckoutType;
 
     }
@@ -63,8 +75,14 @@ export class Checkout {
         });
 
         if (!response.ok) {
-            throw await response.json();
+            throw await {
+                url,
+                status: response.status,
+                statusText: response.statusText,
+                body: await response.text(),
+            }
         }
+        
         return await response.json() as CreateCheckoutResponse;
     }
 

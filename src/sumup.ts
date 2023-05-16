@@ -4,17 +4,19 @@ import { Checkout } from "./checkout";
 export class SumUp {
     private clientId: string;
     private clientSecret: string;
+    private authorizationCode?: string;
     private apiBaseURL: string;
 
     private authorization: Authorization;
     private checkout?: Checkout;
 
 
-    constructor(clientId: string, clientSecret: string, apiBaseURL: string = 'https://api.sumup.com/v0.1') {
+    constructor(clientId: string, clientSecret: string, authorizationCode?: string, apiBaseURL: string = 'https://api.sumup.com/v0.1') {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
+        this.authorizationCode = authorizationCode;
         this.apiBaseURL = apiBaseURL;
-        this.authorization = new Authorization(clientId, clientSecret, apiBaseURL);
+        this.authorization = new Authorization(clientId, clientSecret, apiBaseURL, authorizationCode);
     }
 
     async authorize() {
