@@ -6,7 +6,7 @@ export class SumUp {
     private clientSecret: string;
     private apiBaseURL: string;
 
-    private authorization?: Authorization;
+    private authorization: Authorization;
     private checkout?: Checkout;
 
 
@@ -14,15 +14,20 @@ export class SumUp {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.apiBaseURL = apiBaseURL;
+        this.authorization = new Authorization(clientId, clientSecret, apiBaseURL);
     }
 
-    public async authorize() {
-        this.authorization = new Authorization(this.clientId, this.clientSecret, this.apiBaseURL);
+    async authorize() {
+        return this.authorization.getToken();
+    }
+
+    getAuthorization() {
+        return this.authorization;
     }
 
     getCheckout() {
         if (!this.authorization) throw new Error('Authorization is not initialized');
-        
+
         if (!this.checkout) {
             this.checkout = new Checkout(this.authorization);
         }

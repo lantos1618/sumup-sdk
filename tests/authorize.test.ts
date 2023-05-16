@@ -14,5 +14,19 @@ describe('SumUp', () => {
         sumUp = new SumUp(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.API_BASE_URL);
     });
 
+    describe('authorize', () => {
+        it('should call getToken method of Authorization class', async () => {
+            const getTokenSpy = jest.spyOn(Authorization.prototype, 'getToken').mockImplementation(() => Promise.resolve('testToken'));
 
+            await sumUp.authorize();
+            expect(getTokenSpy).toHaveBeenCalled();
+
+            getTokenSpy.mockRestore();
+        });
+
+        it('should return a token', async () => {
+            const token = await sumUp.authorize();
+            console.log(token);
+        });
+    });
 });
