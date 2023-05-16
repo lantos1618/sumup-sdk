@@ -1,6 +1,6 @@
 
 
-enum AuthorizationScope {
+export enum AuthorizationScope {
     // https://developer.sumup.com/docs/online-payments/introduction/authorization/#authorization-scopes
     PAYMENTS = 'payments',
     PAYMENT_INSTRUMENTS = 'payment_instruments',
@@ -14,17 +14,19 @@ enum AuthorizationScope {
 
 }
 
-const DEFAULT_SCOPES = [ AuthorizationScope.PAYMENTS, AuthorizationScope.TRANSACTION_HISTORY, AuthorizationScope.USER_APP_SETTINGS, AuthorizationScope.USER_PROFILE_READ_ONLY ];
+export const DEFAULT_USER_AUTHORIZATION_SCOPES = [ AuthorizationScope.PAYMENTS, AuthorizationScope.TRANSACTION_HISTORY, AuthorizationScope.USER_APP_SETTINGS, AuthorizationScope.USER_PROFILE_READ_ONLY ];
 
-type RequestUserAuthorizationRequest = {
-    response_type: string,
+
+export type RequestUserAuthorizationRequest = {
+    response_type: string
+    // must be 'code'
     // The type of the expected response. The value must be code to indicate that you expect to receive an authorization code.
     client_id: string,
     // The client ID of your application that was generated when you registered it.
     // Example: fOcmczrYtYMJ7Li5GjMLLcUeC9dN
     redirect_uri: string,
     // The URL in your application where users will be sent after authorization.
-    scope: AuthorizationScope,
+    scope: AuthorizationScope[],
     // A space-separated list of scopes for which you request authorization. If you don't specify any scopes in the request, your application will be granted authorization for the default scopes.
     // Example: payments
     state?: string,
@@ -32,18 +34,19 @@ type RequestUserAuthorizationRequest = {
     // Example: 2cFCsY36y95lFHk4
 }
 
-type RequestUserAuthorizationResponse = {
+export type RequestUserAuthorizationResponse = {
     code: string,
 }
 
-enum GenerateAccessTokenRequestGrantType {
+export enum GenerateAccessTokenRequestGrantType {
     AUTHORIZATION_CODE = 'authorization_code',
     REFRESH_TOKEN = 'refresh_token',
     CLIENT_CREDENTIALS = 'client_credentials',
+    PASSWORD = 'password',
 }
 
 
-type GenerateAccessTokenRequest = {
+export type GenerateAccessTokenRequest = {
     grant_type: GenerateAccessTokenRequestGrantType,
     // The grant type used for obtaining an access token.
     client_id: string,
@@ -56,7 +59,7 @@ type GenerateAccessTokenRequest = {
     // a required parameter if the grant_type is refresh_token. The refresh token that you received from the authorization server.
 }
 
-type GenerateAccessTokenResponse = {
+export type GenerateAccessTokenResponse = {
     access_token: string,
     // The access token that you need to use in your requests to the SumUp API.
     token_type: string,
@@ -71,12 +74,10 @@ type GenerateAccessTokenResponse = {
 
 
 export class Authorization {
-    // this API is and should be simple so we don't need to create a builder 
-
     private expiresAt?: Date;
     private accessToken?: string;
 
-    constructor(private clientId: string, private clientSecret: string, private apiBaseURL: string, private authorization_code?: string ) { }
+    constructor(private clientId: string, private clientSecret: string, private apiBaseURL: string, private authorization_code?: string, private refreshToken?: string ) { }
 
     getApiBaseUrl(): string {
         return this.apiBaseURL;
@@ -142,8 +143,27 @@ export class Authorization {
     }
 
     async getToken(): Promise<string> {
+        // Check for existing access token
+        if (this.accessToken) {
+            return this.accessToken;
+        }
+
+        // Check for existing refresh token
+        if (this.refreshToken) {
+            // generate a new token using refresh token
+            const token = await this.generateAccessToken({
+                grant_type: GenerateAccessTokenRequestGrantType.REFRESH_TOKEN,
+                client_id: this.clientId,
+                client_secret: this.clientSecret,
+                refresh_token: this.refreshToken,
+            });
+            this.accessToken = token.access_token;
+            this.refreshToken = token.refresh_token;
+            return this.accessToken;
+        }
+
+        // If an authorization code is provided, use it to generate a new token
         if (this.authorization_code) {
-            // generate a new token
             const token = await this.generateAccessToken({
                 grant_type: GenerateAccessTokenRequestGrantType.AUTHORIZATION_CODE,
                 client_id: this.clientId,
@@ -151,16 +171,18 @@ export class Authorization {
                 code: this.authorization_code,
             });
             this.accessToken = token.access_token;
-        } else {
-            // generate a new token
-            const token = await this.generateAccessToken({
-                grant_type: GenerateAccessTokenRequestGrantType.REFRESH_TOKEN,
-                client_id: this.clientId,
-                client_secret: this.clientSecret,
-            });
-            this.accessToken = token.access_token;
+            this.refreshToken = token.refresh_token;
+            return this.accessToken;
         }
 
+        // If no refresh token or authorization code, use client credentials to generate a new token
+        const token = await this.generateAccessToken({
+            grant_type: GenerateAccessTokenRequestGrantType.CLIENT_CREDENTIALS,
+            client_id: this.clientId,
+            client_secret: this.clientSecret,
+        });
+        this.accessToken = token.access_token;
+        this.refreshToken = token.refresh_token;
         return this.accessToken;
     }
 }

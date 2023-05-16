@@ -1,6 +1,7 @@
 import { SumUp } from "./sumup";
 import dotenv from 'dotenv';
 import { Currency } from "./models/shared";
+import { Authorization, DEFAULT_USER_AUTHORIZATION_SCOPES, GenerateAccessTokenRequest, GenerateAccessTokenRequestGrantType, RequestUserAuthorizationRequest } from "./authorization";
 
 const main = async () => {
     // load environment variables
@@ -28,17 +29,8 @@ const main = async () => {
 
     // console.log(checkout);
 
-    const res = await fetch("https://api.sumup.com/v0.1/me/merchant-profile", {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.CLIENT_SECRET}`
-        },
-
-    })
-
-    console.log(await res.json());
-
+    const authorization = new Authorization(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.API_BASE_URL)
+    const token = await authorization.getToken();
 
 }
 
