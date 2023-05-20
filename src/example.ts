@@ -29,8 +29,14 @@ const main = async () => {
 
     // console.log(checkout);
 
-    const authorization = new Authorization(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.API_BASE_URL)
+    const authorization = new Authorization({
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        apiBaseURL: process.env.API_BASE_URL,
+        
+    })
     const token = await authorization.getToken();
+    console.log(token);
 
 }
 
