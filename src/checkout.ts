@@ -10,79 +10,94 @@ export class Checkout {
     constructor(private authorization: Authorization) { }
 
     async listCheckouts(checkout: ListCheckoutRequest): Promise<ListCheckoutResponse> {
+        const method = 'GET';
         const queryURL = "/checkouts";
         const queryParameters = new URLSearchParams(checkout);
-        const url = this.authorization.getApiBaseUrl() + queryURL + '?' + queryParameters.toString();
-        const method = 'GET';
+        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL + '?' + queryParameters.toString();
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${(await this.authorization.getToken()).access_token}`
+        };
         const response = await fetch(url, {
             method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.authorization.getToken()}`
-            },
+            headers
         });
         if (!response.ok) {
             throw await {
+                method,
                 url,
+                headers,
                 status: response.status,
                 statusText: response.statusText,
                 body: await response.text(),
             }
         }
-        
+
         return await response.json() as ListCheckoutResponse;
 
     }
 
     async getCheckout(checkout: GetCheckoutRequest): Promise<CheckoutType> {
         const queryURL = "/checkouts";
-        // const queryParameters = new URLSearchParams(checkout);
-        const url = this.authorization.getApiBaseUrl() + queryURL + '/' + checkout.checkout_reference;
+        const queryParameters = new URLSearchParams(checkout);
+        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL + queryParameters.toString();
         const method = 'GET';
         const response = await fetch(url, {
             method,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.authorization.getToken()}`
+                'Authorization': `Bearer ${(await this.authorization.getToken()).access_token}`
             },
         });
 
 
         if (!response.ok) {
             throw await {
+                method,
                 url,
                 status: response.status,
                 statusText: response.statusText,
                 body: await response.text(),
             }
         }
-        
+
         return await response.json() as CheckoutType;
 
     }
 
     async createCheckout(checkout: CreateCheckoutRequest): Promise<CreateCheckoutResponse> {
-        const queryURL = "/checkouts";
-        const url = this.authorization.getApiBaseUrl() + queryURL;
         const method = 'POST';
+        const queryURL = "/checkouts";
+        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL;
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${(await this.authorization.getToken()).access_token}`
+        };
         const response = await fetch(url, {
             method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.authorization.getToken()}`
-            },
+            headers,
             body: JSON.stringify(checkout)
         });
 
+
         if (!response.ok) {
-            throw await {
+            let body: string = ""
+            try {
+                body = await response.text();
+
+            } catch (error) {
+
+            }
+            throw {
+                method,
                 url,
+                headers,
                 status: response.status,
                 statusText: response.statusText,
-                body: await response.text(),
+                body: body
             }
         }
-        
+
         return await response.json() as CreateCheckoutResponse;
     }
 
@@ -98,7 +113,7 @@ export class Checkout {
 
         const queryURL = "/checkouts";
 
-        const url = this.authorization.getApiBaseUrl() + queryURL + '/' + checkout.token;
+        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL + '/' + checkout.token;
         const method = 'PUT';
 
         // response are 200, 202
@@ -126,7 +141,7 @@ export class Checkout {
     async cancelCheckout(checkout: CancelCheckoutRequest): Promise<CancelCheckoutResponse> {
         const queryURL = "/checkouts";
 
-        const url = this.authorization.getApiBaseUrl() + queryURL + '/' + checkout.checkout_reference;
+        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL + '/' + checkout.checkout_reference;
         const method = 'DELETE';
 
         // response are 200, 202

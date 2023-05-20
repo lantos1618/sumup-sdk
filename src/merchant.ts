@@ -3,20 +3,23 @@ import { MerchantProfileResponse } from "./models/merchant";
 
 
 
-class Merchant {
+export class Merchant {
     constructor(private authorization: Authorization) { }
 
     async getMerchantProfile(): Promise<MerchantProfileResponse> {
-        const queryURL = "/me/merchant-profile";
+        const method = 'GET';
+        const queryURL = "/v0.1/me/merchant-profile";
         const url = this.authorization.getApiBaseUrl() + queryURL;
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.CLIENT_SECRET}`
-            },
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${(await this.authorization.getToken()).access_token}`
+        };
 
-        })
+        const response = await fetch(url,
+            {
+                method,
+                headers
+            })
 
         if (!response.ok) {
             throw await {

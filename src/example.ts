@@ -1,7 +1,7 @@
 import { SumUp } from "./sumup";
 import dotenv from 'dotenv';
 import { Currency } from "./models/shared";
-import { Authorization, DEFAULT_USER_AUTHORIZATION_SCOPES, GenerateAccessTokenRequest, GenerateAccessTokenRequestGrantType, RequestUserAuthorizationRequest } from "./authorization";
+import { Authorization } from "./authorization";
 
 const main = async () => {
     // load environment variables
@@ -12,31 +12,66 @@ const main = async () => {
 
     // create SumUp instance
 
-    // const sumUp = new SumUp(process.env.CLIENT_ID, process.env.CLIENT_SECRET,  process.env.AUTHORIZATION_CODE || null, process.env.API_BASE_URL);
+    const sumUp = new SumUp(new Authorization({
+        kind: 'bearer',
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        apiBaseURL: process.env.API_BASE_URL,
+        apiVersion: '/v0.1',
+    }));
 
     // authorize
     // const token = await sumUp.authorize();
     // console.log(token);
 
+    // // get merchant profile
+    const merchant = await sumUp.getMerchant();
+
+    const merchantProfile = await merchant.getMerchantProfile();
+    console.log(merchantProfile);
+
     // // create checkout
-    // const checkout = await sumUp.getCheckout().createCheckout({
-    //     amount: 100,
-    //     currency: Currency.EUR,
+    const checkout = await sumUp.getCheckout();
+
+    // // create checkout request
+
+
+    // const createCheckoutResponse = await checkout.createCheckout({
+    //     amount: 10,
+    //     currency: Currency.GBP,
     //     description: 'Test payment',
     //     checkout_reference: 'test',
-    //     merchant_code: 'test',
+    //     merchant_code: merchantProfile.merchant_code,
     // });
 
-    // console.log(checkout);
 
-    const authorization = new Authorization({
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        apiBaseURL: process.env.API_BASE_URL,
-        
-    })
-    const token = await authorization.getToken();
-    console.log(token);
+
+    // console.log(createCheckoutResponse);
+
+
+    const listCheckoutResponse = await checkout.listCheckouts({
+        checkout_reference: 'test',
+    });
+
+    
+
+    console.log(listCheckoutResponse);
+
+    // const authorization = new Authorization({
+    //     kind: 'client_credentials',
+    //     clientId: process.env.CLIENT_ID,
+    //     clientSecret: process.env.CLIENT_SECRET,
+    //     apiBaseURL: process.env.API_BASE_URL,
+    // });
+    //   const authorization = new Authorization({
+    //     kind: 'bearer',
+    //     clientId: process.env.CLIENT_ID,
+    //     clientSecret: process.env.CLIENT_SECRET,
+    //     apiBaseURL: process.env.API_BASE_URL,
+    // });
+
+    // const token = await authorization.getToken();
+    // console.log(token);
 
 }
 

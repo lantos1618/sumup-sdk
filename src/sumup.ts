@@ -1,25 +1,19 @@
-import { Authorization } from "./authorization";
+import { AccessToken, Authorization } from "./authorization";
 import { Checkout } from "./checkout";
+import { Merchant } from "./merchant";
 
 export class SumUp {
-    private clientId: string;
-    private clientSecret: string;
-    private authorizationCode?: string;
-    private apiBaseURL: string;
-
     private authorization: Authorization;
     private checkout?: Checkout;
+    private merchat?: Merchant;
 
 
-    constructor(clientId: string, clientSecret: string, authorizationCode?: string, apiBaseURL: string = 'https://api.sumup.com/v0.1') {
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
-        this.authorizationCode = authorizationCode;
-        this.apiBaseURL = apiBaseURL;
-        this.authorization = new Authorization(clientId, clientSecret, apiBaseURL, authorizationCode);
+    constructor(authorization: Authorization) {
+        this.authorization = authorization;
     }
 
-    async authorize() {
+
+    async authorize(): Promise<AccessToken> {
         return this.authorization.getToken();
     }
 
@@ -34,6 +28,17 @@ export class SumUp {
             this.checkout = new Checkout(this.authorization);
         }
         return this.checkout;
+    }
+
+
+
+    getMerchant() {
+        if (!this.authorization) throw new Error('Authorization is not initialized');
+
+        if (!this.merchat) {
+            this.merchat = new Merchant(this.authorization);
+        }
+        return this.merchat;
     }
 
 }
