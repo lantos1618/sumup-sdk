@@ -131,7 +131,7 @@ export type PaymentInstrument = {
     token: string,
 }
 
-export type ListCheckoutResponse = Checkout[]
+export type ListCheckoutResponse = CheckoutType[]
 
 export type ListCheckoutRequest = {
     checkout_reference: string

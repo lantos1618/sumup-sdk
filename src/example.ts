@@ -57,6 +57,15 @@ const main = async () => {
 
     console.log(listCheckoutResponse);
 
+
+    for(const checkoutResponse of listCheckoutResponse){
+        const cancelCheckout = await checkout.cancelCheckout({
+            checkout_reference: checkoutResponse.id
+        });
+
+        console.log(cancelCheckout);
+    
+    }
     // const authorization = new Authorization({
     //     kind: 'client_credentials',
     //     clientId: process.env.CLIENT_ID,

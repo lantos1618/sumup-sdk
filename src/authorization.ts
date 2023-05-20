@@ -118,7 +118,7 @@ export interface AuthorizationConfigBearer {
   apiVersion: string;
 }
 
-export type AuthorizationConfig = 
+export type AuthorizationConfig =
   | AuthorizationConfigClientCredentials
   | AuthorizationConfigPassword
   | AuthorizationConfigAuthorizationCode
@@ -140,7 +140,7 @@ export class Authorization {
   }
 
 
-  async getTokenUsingClientCredentials(): Promise<AccessToken> {  
+  async getTokenUsingClientCredentials(): Promise<AccessToken> {
     console.debug('getTokenByClientCredentials');
     this.authorizationConfig = this.authorizationConfig as AuthorizationConfigClientCredentials;
 
@@ -248,14 +248,14 @@ export class Authorization {
     return await response.json();
   }
 
-  
+
 
   async getTokenUsingRefreshToken(): Promise<AccessToken> {
     console.debug('getTokenByRefreshToken');
     const method = 'POST';
 
     this.authorizationConfig = this.authorizationConfig as AuthorizationConfigRefreshToken;
-    
+
     const query = {
       grant_type: GenerateAccessTokenRequestGrantType.REFRESH_TOKEN,
       client_id: this.authorizationConfig.clientId,
@@ -265,12 +265,13 @@ export class Authorization {
 
     const queryUrl = '/token';
     const url = `${this.authorizationConfig.apiBaseURL}${queryUrl}`;
-
+    const headers = {
+      'Content-Type': 'application/json',
+    }
     const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+
       method,
+      headers,
       body: JSON.stringify(query),
     });
 
@@ -289,9 +290,7 @@ export class Authorization {
 
 
   async getTokenUsingBearerToken(): Promise<AccessToken> {
-    console.debug('getTokenByBearerToken');
     this.authorizationConfig = this.authorizationConfig as AuthorizationConfigBearer;
-
     return {
       access_token: this.authorizationConfig.clientSecret,
       token_type: 'bearer',
@@ -303,8 +302,7 @@ export class Authorization {
     switch (this.authorizationConfig.kind) {
       case "client_credentials":
         // get token using client credentials
-        
-        return  await this.getTokenUsingClientCredentials();
+        return await this.getTokenUsingClientCredentials();
       case "password":
         // get token using password
         return await this.getTokenUsingPassword();
@@ -317,6 +315,6 @@ export class Authorization {
       case "bearer":
         // get token using bearer token
         return await this.getTokenUsingBearerToken();
-      }
+    }
   }
 }

@@ -101,6 +101,7 @@ export class Checkout {
         return await response.json() as CreateCheckoutResponse;
     }
 
+
     async processCheckout(checkout: ProcessCheckoutRequest): Promise<ProcessCheckoutResponse | ProcessCheckoutNextStep> {
         // for some reason sumup thought it would be a good idea to have 
         // - card
@@ -139,21 +140,24 @@ export class Checkout {
     }
 
     async cancelCheckout(checkout: CancelCheckoutRequest): Promise<CancelCheckoutResponse> {
-        const queryURL = "/checkouts";
 
-        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL + '/' + checkout.checkout_reference;
         const method = 'DELETE';
+        const queryURL = "/checkouts";
+        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL + '/' + checkout.checkout_reference;
 
         // response are 200, 202
         // 200 means the payment was processed
         // 202 means the payment is Accepted and is being processed
 
+        const header = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${(await this.authorization.getToken()).access_token}`
+
+        }
+
         const response = await fetch(url, {
             method,
-            headers: {
-                'Content-Type': 'application/json',
-
-            },
+            headers: header,
             body: JSON.stringify(checkout)
         });
 
