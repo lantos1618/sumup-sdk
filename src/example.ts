@@ -34,15 +34,13 @@ const main = async () => {
     const checkout = await sumUp.getCheckout();
 
     // // create checkout request
-
-
-    // const createCheckoutResponse = await checkout.createCheckout({
-    //     amount: 10,
-    //     currency: Currency.GBP,
-    //     description: 'Test payment',
-    //     checkout_reference: 'test',
-    //     merchant_code: merchantProfile.merchant_code,
-    // });
+    const createCheckoutResponse = await checkout.createCheckout({
+        amount: 10,
+        currency: Currency.GBP,
+        description: 'Test payment',
+        checkout_reference: 'test',
+        merchant_code: merchantProfile.merchant_code,
+    });
 
 
 
@@ -52,9 +50,6 @@ const main = async () => {
     const listCheckoutResponse = await checkout.listCheckouts({
         checkout_reference: 'test',
     });
-
-    
-
     console.log(listCheckoutResponse);
 
 
@@ -62,25 +57,10 @@ const main = async () => {
         const cancelCheckout = await checkout.cancelCheckout({
             checkout_reference: checkoutResponse.id
         });
-
         console.log(cancelCheckout);
     
     }
-    // const authorization = new Authorization({
-    //     kind: 'client_credentials',
-    //     clientId: process.env.CLIENT_ID,
-    //     clientSecret: process.env.CLIENT_SECRET,
-    //     apiBaseURL: process.env.API_BASE_URL,
-    // });
-    //   const authorization = new Authorization({
-    //     kind: 'bearer',
-    //     clientId: process.env.CLIENT_ID,
-    //     clientSecret: process.env.CLIENT_SECRET,
-    //     apiBaseURL: process.env.API_BASE_URL,
-    // });
 
-    // const token = await authorization.getToken();
-    // console.log(token);
 
 }
 
