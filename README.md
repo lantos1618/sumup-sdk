@@ -56,9 +56,10 @@ TODO
 - [ ] Add more examples
 
 
+goal is to implement the minimum required to get paid.
 
 
 Updates:
 - 2023-05-15: Added support for Authentication
 - 2023-05-15: Added support for Checkouts
-
+- 2023-05-20: Fixed Authentication, added some api. Checkout + Merchant
