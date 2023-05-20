@@ -104,6 +104,7 @@ export class Checkout {
 
     async processCheckout(checkout: ProcessCheckoutRequest): Promise<ProcessCheckoutResponse | ProcessCheckoutNextStep> {
         // for some reason sumup thought it would be a good idea to have 
+        // also I'm pretty sure this needs to be called on the frontend
         // - card
         // - boleto
         // - ideal
@@ -114,7 +115,7 @@ export class Checkout {
 
         const queryURL = "/checkouts";
 
-        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL + '/' + checkout.token;
+        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL + '/' + checkout.checkout_reference;
         const method = 'PUT';
 
         // response are 200, 202

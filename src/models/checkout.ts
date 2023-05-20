@@ -15,6 +15,7 @@ export type CreateCheckoutRequest = {
     // Short description of the checkout visible in the SumUp dashboard. The description can contribute to reporting = "ng",
     //  allowing easier identification of a checkout.
     return_url?: string,
+    // required if you want `browser` mechanism for 3ds
     // URL to which the user is redirected after the payment is completed. If not specified, the user is redirected to the SumUp dashboard.
     customer_id?: string,
     // Unique ID of the customer specified by the client application when creating the customer resource.
@@ -99,7 +100,7 @@ export enum TransactionStatus {
     // Add other statuses as needed
 }
 
-export enum PaymentType {
+export enum TransactionPaymentType {
     ECOM = 'ECOM',
     // Add other types as needed
 }
@@ -117,7 +118,7 @@ export type Transaction = {
     currency: Currency,
     timestamp: string,
     status: TransactionStatus,
-    payment_type: PaymentType,
+    payment_type: TransactionPaymentType,
     installments_count: number,
     merchant_code: string,
     vat_amount: number,
@@ -205,6 +206,8 @@ export type ProcessCheckoutMandate = {
 
 
 export type ProcessCheckoutRequest = {
+    checkout_reference: string,
+
     payment_type: ProcessCheckoutRequestPaymentType,
     // The payment method used for the checkout.
 
@@ -216,7 +219,7 @@ export type ProcessCheckoutRequest = {
     card?: Card,
     // Card details for the payment. Required if the payment_type is card.
 
-    token: string,
+    token?: string,
     // Required when using a tokenized card to process a checkout. Unique token identifying the saved payment card for a customer.
 
     customer_id?: string,
