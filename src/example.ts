@@ -1,7 +1,7 @@
 import { SumUp } from "./sumup";
 import dotenv from 'dotenv';
 import { Currency } from "./models/shared";
-import { Authorization } from "./authorization";
+import { Authorization } from "./api/authorization";
 import { ProcessCheckoutRequestPaymentType } from "./models/checkout";
 
 const main = async () => {
