@@ -5,6 +5,16 @@ This is not an official package, and is not supported by Sumup. It is a communit
 
 This is not perfect, the goal is to implement the minimum required to get paid. 
 
+
+Recomendations to sumup: (I mean this in the nicest way possible)
+- Fix the documentation, please mark your api with Backend/Frontend
+- Fix the API QA process. You have typeo's in the documentation and API responses.
+- Develop Stronger Webhook strategy.
+- Please sandbox?
+- Document url parameters. 
+- Consolidate some of the responses. You have multiple return types for the same endpoint.
+
+
 ## API 
 https://developer.sumup.com/docs/api/sum-up-rest-api/
 
@@ -53,13 +63,10 @@ https://developer.sumup.com/docs/api/sum-up-rest-api/
   - [Deactivate a subaccount](https://developer.sumup.com/docs/api/deactivate-a-subaccount/)
 
 
-
-
 TODO 
 - [ ] Add tests
 - [ ] Add more documentation
 - [ ] Add more examples
-
 
 
 
