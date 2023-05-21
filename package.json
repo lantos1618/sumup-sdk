@@ -1,7 +1,7 @@
 {
   "name": "sumup-sdk",
   "version": "1.0.0",
-  "description": "un-official sumup sdk for typescript",
+  "description": "sumup sdk for typescript",
   "main": "sumup.ts",
   "types": "dist/sumup.d.ts",
   "scripts": {
