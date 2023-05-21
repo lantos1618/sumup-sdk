@@ -41,11 +41,14 @@ export type CreateCheckoutRequest = {
 }
 
 export enum CreateCheckoutStatus {
+    // Sumup doesn't have a collated enum for this so we have to make our own
     // PAID = 'PAID',
+    PENDING = 'PENDING',
     UNPAID = 'UNPAID',
     CANCELLED = 'CANCELLED',
     FAILED = 'FAILED',
 }
+
 
 export type Mandate = {
     type?: string,
