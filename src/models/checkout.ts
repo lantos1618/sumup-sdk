@@ -20,6 +20,7 @@ export type CreateCheckoutRequest = {
     // Unique ID of the customer specified by the client application when creating the customer resource.
     redirect_url?: string,
     // required for 3DS payments
+    // DO NOT CONFUSE WITH RETURN_URL! 
     // URL to which the user is redirected after the payment is completed. If not specified, the user is redirected to the SumUp dashboard.
     payment_type?: string,
     // Alternative payment method name
@@ -73,7 +74,10 @@ export type CreateCheckoutResponse = {
     // Short description of the checkout visible in the SumUp dashboard. The description can contribute to reporting = "ng",
     //  allowing easier identification of a checkout.
     return_url?: string,
+    // https://developer.sumup.com/docs/online-payments/introduction/webhooks/
+    // Sumup uses this as the webhook url... WHY?? bro just call it a webhook url
     // URL to which the user is redirected after the payment is completed. If not specified, the user is redirected to the SumUp dashboard.
+
     id?: string,
     // Unique ID of the checkout resource.
     status?: CreateCheckoutStatus,
