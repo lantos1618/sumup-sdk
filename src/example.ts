@@ -46,17 +46,17 @@ const main = async () => {
     const checkout_reference = 'test_3';
 
     // create checkout request
-    const createCheckoutResponse = await checkout.createCheckout({
-        amount: 1,
-        currency: Currency.GBP,
-        description: 'Test payment',
-        checkout_reference,
-        merchant_code: merchantProfile.merchant_code,
-        redirect_url: "http://localhost:3000",
-        return_url: "http://localhost:3000"
-    });
+    // const createCheckoutResponse = await checkout.createCheckout({
+    //     amount: 1,
+    //     currency: Currency.GBP,
+    //     description: 'Test payment',
+    //     checkout_reference,
+    //     merchant_code: merchantProfile.merchant_code,
+    //     redirect_url: "http://localhost:3000",
+    //     return_url: "http://localhost:3000"
+    // });
 
-    console.log("createCheckoutResponse", createCheckoutResponse);
+    // console.log("createCheckoutResponse", createCheckoutResponse);
 
 
     const listCheckoutResponse = await checkout.listCheckouts({
@@ -66,35 +66,34 @@ const main = async () => {
 
 
     // this is the part that needs to be done in the browser
-    const processCheckoutResponse = await checkout.processCheckout({
-        checkout_reference: listCheckoutResponse[0].id,
-        payment_type: ProcessCheckoutRequestPaymentType.CARD,
-        card: {
-            name: "REDACTED",
-            number: "REDACTED",
-            cvv: "REDACTED",
-            expiry_month: "REDACTED",
-            expiry_year: "REDACTED",
-            zip_code: "REDACTED",
-        },
-    })
+    // const processCheckoutResponse = await checkout.processCheckout({
+    //     checkout_reference: listCheckoutResponse[0].id,
+    //     payment_type: ProcessCheckoutRequestPaymentType.CARD,
+    //     card: {
+    //         name: "REDACTED",
+    //         number: "REDACTED",
+    //         cvv: "REDACTED",
+    //         expiry_month: "REDACTED",
+    //         expiry_year: "REDACTED",
+    //         zip_code: "REDACTED",
+    //     },
+    // })
 
 
-    console.log(processCheckoutResponse)
+    // console.log(processCheckoutResponse)
     // we then need to open or redirect to the url in processCheckoutResponse.next_action.url
     // window.location.href = processCheckoutResponse.next_action.url
 
     // we then need to poll the status of the checkout until it is either success or failed
     // we can do this by calling listCheckouts again and checking the status
 
-    const listCheckoutResponse_after = await checkout.listCheckouts({
-        checkout_reference,
+    const getCheckout = await checkout.getCheckout({
+        checkout_reference: listCheckoutResponse[0].id,
     });
-    console.log("listCheckoutResponse", listCheckoutResponse_after);
-
+    console.log("getCheckout", getCheckout);
     
     
-    
+    // cancle checkout
     // for(const checkoutResponse of listCheckoutResponse){
     //     const cancelCheckout = await checkout.cancelCheckout({
     //         checkout_reference: checkoutResponse.id
