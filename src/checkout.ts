@@ -3,6 +3,7 @@
 
 import { Authorization } from "./authorization"
 import { CancelCheckoutRequest, CancelCheckoutResponse, CheckoutType, CreateCheckoutRequest, CreateCheckoutResponse, GetCheckoutRequest, ListCheckoutRequest, ListCheckoutResponse, ProcessCheckoutNextStep, ProcessCheckoutRequest, ProcessCheckoutResponse } from "./models/checkout";
+import { checkError } from "./models/shared";
 
 export class Checkout {
     // this API is and should be simple so we don't need to create a builder 
@@ -22,16 +23,8 @@ export class Checkout {
             method,
             headers
         });
-        if (!response.ok) {
-            throw await {
-                method,
-                url,
-                headers,
-                status: response.status,
-                statusText: response.statusText,
-                body: await response.text(),
-            }
-        }
+        checkError(response, method, url, headers);
+
 
         return await response.json() as ListCheckoutResponse;
 
@@ -52,15 +45,7 @@ export class Checkout {
         });
 
 
-        if (!response.ok) {
-            throw await {
-                method,
-                url,
-                status: response.status,
-                statusText: response.statusText,
-                body: await response.text(),
-            }
-        }
+        checkError(response, method, url, headers);
 
         return await response.json() as CheckoutType;
 
@@ -81,23 +66,8 @@ export class Checkout {
         });
 
 
-        if (!response.ok) {
-            let body: string = ""
-            try {
-                body = await response.text();
+        checkError(response, method, url, headers);
 
-            } catch (error) {
-
-            }
-            throw {
-                method,
-                url,
-                headers,
-                status: response.status,
-                statusText: response.statusText,
-                body: body
-            }
-        }
 
         return await response.json() as CreateCheckoutResponse;
     }

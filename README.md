@@ -58,7 +58,7 @@ TODO
 - [ ] Add more examples
 
 
-goal is to implement the minimum required to get paid.
+This is not perfect, the goal is to implement the minimum required to get paid. 
 
 
 Updates:

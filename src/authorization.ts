@@ -1,4 +1,5 @@
 import { type } from "os";
+import { checkError } from "./models/shared";
 
 
 
@@ -153,24 +154,17 @@ export class Authorization {
     }
     const queryUrl = '/token';
     const url = `${this.authorizationConfig.apiBaseURL}${queryUrl}`;
+    const headers = {
+      'Content-Type': 'application/json',
+    };
     const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
       method,
+      headers,
       body: JSON.stringify(query),
     });
 
-    if (!response.ok) {
-      throw {
-        method,
-        url,
-        query,
-        status: response.status,
-        statusText: response.statusText,
-        body: await response.text(),
-      }
-    }
+    checkError(response, method, url, headers);
+
     return await response.json();
   }
 
@@ -190,25 +184,17 @@ export class Authorization {
     }
     const queryUrl = '/token';
     const url = `${this.authorizationConfig.apiBaseURL}${queryUrl}`;
-
+    const headers = {
+      'Content-Type': 'application/json',
+    };
     const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       method,
       body: JSON.stringify(query),
     });
 
-    if (!response.ok) {
-      throw {
-        method,
-        url,
-        query,
-        status: response.status,
-        statusText: response.statusText,
-        body: await response.text(),
-      }
-    }
+    checkError(response, method, url, headers);
+
     return await response.json();
   }
 
@@ -226,25 +212,17 @@ export class Authorization {
     }
     const queryUrl = '/token';
     const url = `${this.authorizationConfig.apiBaseURL}${queryUrl}`;
-
+    const headers = {
+      'Content-Type': 'application/json',
+    };
     const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
       method,
+      headers,
       body: JSON.stringify(query),
     });
 
-    if (!response.ok) {
-      throw {
-        method,
-        url,
-        query,
-        status: response.status,
-        statusText: response.statusText,
-        body: await response.text(),
-      }
-    }
+    checkError(response, method, url, headers);
+
     return await response.json();
   }
 
@@ -275,16 +253,8 @@ export class Authorization {
       body: JSON.stringify(query),
     });
 
-    if (!response.ok) {
-      throw {
-        method,
-        url,
-        query,
-        status: response.status,
-        statusText: response.statusText,
-        body: await response.text(),
-      }
-    }
+    checkError(response, method, url, headers);
+
     return await response.json();
   }
 

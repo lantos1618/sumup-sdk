@@ -73,3 +73,82 @@ export interface UpdateCustomerResponse {
     // Unique ID of the customer.
     personal_details: CreateCustomerPersonalDetails;
 }
+
+export interface CreateCustomerPaymentInstrumentRequestCard {
+    name: string
+    // Name of the cardholder.
+    number: string
+    // Card number.
+    expiry_year: string
+    // Expiry month of the card. >= 2 characters and <= 4 characters
+    expiry_month: string
+    // Expiry month of the card. [01, 02, ..., 12]
+    cvv: string
+    // Card verification value. >= 3 characters and <= 4 characters
+    zip_code?: string
+    // Zip code of the cardholder.
+    // only required for US cards
+
+}
+export interface CreateCustomerPaymentInstrumentRequest {
+    customer_id: string
+    type: "card",
+    // indicates the type of the payment instrument
+    card: CreateCustomerPaymentInstrumentRequestCard
+
+}
+
+enum CardType {
+    AMEX = "AMEX",
+    CUP = "CUP",
+    DINERS = "DINERS",
+    DISCOVER = "DISCOVER",
+    ELO = "ELO",
+    ELV = "ELV",
+    HIPERCARD = "HIPERCARD",
+    JCB = "JCB",
+    MAESTRO = "MAESTRO",
+    MASTERCARD = "MASTERCARD",
+    VISA = "VISA",
+    VISA_ELECTRON = "VISA_ELECTRON",
+    VISA_VPAY = "VISA_VPAY",
+    UNKOWN = "UNKNOWN",
+}
+
+export interface CreateCustomerPaymentInstrumentResponse {
+    token: string,
+    // Unique ID of the payment instrument.
+    active: boolean,
+    // Indicates whether the payment instrument is active or not.
+    // to deactivate a payment instrument, use the DELETE request.
+    type: "card",
+    // Indicates the type of the payment instrument.
+    card: {
+        last_4_digits: string
+        // Last 4 digits of the card number.
+        type: CardType
+        // Type of the card.
+    },
+
+    mandate: {
+        type: string,
+        // Indicates the type of the mandate.
+        status: string,
+        // Indicates the status of the mandate.
+        merchant_code: string,
+        // merchant code of the mandate.
+    },
+    created_at: string,
+    // Date and time when the payment instrument was created.
+
+}
+
+export interface ListCustomerPaymentInstrumentsRequest {
+    customer_id: string
+}
+export type ListCustomerPaymentInstrumentsResponse = Array<CreateCustomerPaymentInstrumentResponse>
+
+export interface DeactivateCustomerPaymentInstrumentRequest {
+    customer_id: string
+    payment_instrument_token: string
+}

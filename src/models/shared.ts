@@ -49,3 +49,24 @@ export enum PersonalDetailsState {
     SE = "SE",
     TO = "TO"
 }
+
+
+export async function checkError(response: Response, method: string, url: string, headers: Headers| HeadersInit) {
+    if (!response.ok) {
+        let body: string = ""
+        try {
+            body = await response.text();
+
+        } catch (error) {
+
+        }
+        throw {
+            method,
+            url,
+            headers,
+            status: response.status,
+            statusText: response.statusText,
+            body: body
+        }
+    }
+}

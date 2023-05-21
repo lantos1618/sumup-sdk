@@ -1,5 +1,6 @@
 import { Authorization } from "./authorization";
 import { MerchantProfileResponse } from "./models/merchant";
+import { checkError } from "./models/shared";
 
 
 
@@ -21,15 +22,7 @@ export class Merchant {
                 headers
             })
 
-        if (!response.ok) {
-            throw await {
-                url,
-                status: response.status,
-                statusText: response.statusText,
-                body: await response.text(),
-            }
-        }
-
+        checkError(response, method, url, headers);
 
         return await response.json() as MerchantProfileResponse;
     }
