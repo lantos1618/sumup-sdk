@@ -1,15 +1,15 @@
 {
   "name": "sumup_sdk_ts",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.ts",
+  "description": "un-official sumup sdk for typescript",
+  "main": "sumup.ts",
   "scripts": {
     "start": "nodemon src/example.ts",
     "test": "jest --watch"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["sumup", "sdk", "typescript"],
+  "author": "lantos1618",
+  "license": "BSD-3-Clause",
   "devDependencies": {
     "@types/jest": "^29.5.1",
     "@types/node": "^20.1.5",
