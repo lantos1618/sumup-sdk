@@ -1,5 +1,5 @@
 import { type } from "os";
-import { checkError } from "./models/shared";
+import { checkError } from "../models/shared";
 
 
 

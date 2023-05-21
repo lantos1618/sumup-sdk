@@ -1,5 +1,5 @@
-import { Authorization } from '../src/authorization';
-import { Checkout } from '../src/checkout';
+import { Authorization } from '../src/api/authorization';
+import { Checkout } from '../src/api/checkout';
 import { SumUp } from '../src/sumup';
 import dotenv from 'dotenv';
 
@@ -21,5 +21,5 @@ describe('SumUp', () => {
 
     });
 
- 
+
 });

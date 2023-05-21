@@ -1,4 +1,4 @@
-import { Authorization } from '../src/authorization';
+import { Authorization } from '../src/api/authorization';
 import { Checkout } from '../src/checkout';
 import { SumUp } from '../src/sumup';
 import dotenv from 'dotenv';

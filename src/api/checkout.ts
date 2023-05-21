@@ -2,8 +2,18 @@
 // sumup api 
 
 import { Authorization } from "./authorization"
-import { CancelCheckoutRequest, CancelCheckoutResponse, CheckoutType, CreateCheckoutRequest, CreateCheckoutResponse, GetCheckoutRequest, ListCheckoutRequest, ListCheckoutResponse, ProcessCheckoutNextStep, ProcessCheckoutRequest, ProcessCheckoutResponse } from "./models/checkout";
-import { checkError } from "./models/shared";
+import { CancelCheckoutRequest,
+     CancelCheckoutResponse,
+     CheckoutType,
+     CreateCheckoutRequest,
+     CreateCheckoutResponse,
+     GetCheckoutRequest,
+     ListCheckoutRequest,
+      ListCheckoutResponse,
+       ProcessCheckoutNextStep,
+        ProcessCheckoutRequest,
+         ProcessCheckoutResponse } from "../models/checkout";
+import { checkError } from "../models/shared";
 
 export class Checkout {
     // this API is and should be simple so we don't need to create a builder 

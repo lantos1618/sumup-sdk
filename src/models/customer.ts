@@ -1,4 +1,4 @@
-export interface PersonalDetailsAddress {
+export type PersonalDetailsAddress = {
     city: string
     // City name from the address.
 
@@ -18,7 +18,7 @@ export interface PersonalDetailsAddress {
     // State name or abbreviation from the address.
 }
 
-export interface CreateCustomerPersonalDetails {
+export type CreateCustomerPersonalDetails = {
     first_name: string
     // First name of the customer.
 
@@ -38,13 +38,13 @@ export interface CreateCustomerPersonalDetails {
     address: PersonalDetailsAddress
 }
 
-export interface CreateCustomerRequest {
+export type CreateCustomerRequest = {
     customer_id: string;
     // Unique ID of the customer.
     personal_details: CreateCustomerPersonalDetails;
 }
 
-export interface CreateCustomerResponse {
+export type CreateCustomerResponse = {
     customer_id: string;
     // Unique ID of the customer.
     personal_details: CreateCustomerPersonalDetails;
@@ -52,29 +52,29 @@ export interface CreateCustomerResponse {
 
 
 
-export interface GetCustomerRequest {
+export type GetCustomerRequest = {
     customer_id: string;
 }
 
-export interface GetCustomerResponse {
-    customer_id: string;
-    // Unique ID of the customer.
-    personal_details: CreateCustomerPersonalDetails;
-}
-
-export interface UpdateCustomerRequest {
+export type GetCustomerResponse = {
     customer_id: string;
     // Unique ID of the customer.
     personal_details: CreateCustomerPersonalDetails;
 }
 
-export interface UpdateCustomerResponse {
+export type UpdateCustomerRequest = {
     customer_id: string;
     // Unique ID of the customer.
     personal_details: CreateCustomerPersonalDetails;
 }
 
-export interface CreateCustomerPaymentInstrumentRequestCard {
+export type UpdateCustomerResponse = {
+    customer_id: string;
+    // Unique ID of the customer.
+    personal_details: CreateCustomerPersonalDetails;
+}
+
+export type CreateCustomerPaymentInstrumentRequestCard = {
     name: string
     // Name of the cardholder.
     number: string
@@ -90,7 +90,7 @@ export interface CreateCustomerPaymentInstrumentRequestCard {
     // only required for US cards
 
 }
-export interface CreateCustomerPaymentInstrumentRequest {
+export type CreateCustomerPaymentInstrumentRequest = {
     customer_id: string
     type: "card",
     // indicates the type of the payment instrument
@@ -115,7 +115,7 @@ enum CardType {
     UNKOWN = "UNKNOWN",
 }
 
-export interface CreateCustomerPaymentInstrumentResponse {
+export type CreateCustomerPaymentInstrumentResponse = {
     token: string,
     // Unique ID of the payment instrument.
     active: boolean,
@@ -143,12 +143,12 @@ export interface CreateCustomerPaymentInstrumentResponse {
 
 }
 
-export interface ListCustomerPaymentInstrumentsRequest {
+export type ListCustomerPaymentInstrumentsRequest = {
     customer_id: string
 }
 export type ListCustomerPaymentInstrumentsResponse = Array<CreateCustomerPaymentInstrumentResponse>
 
-export interface DeactivateCustomerPaymentInstrumentRequest {
+export type DeactivateCustomerPaymentInstrumentRequest = {
     customer_id: string
     payment_instrument_token: string
 }

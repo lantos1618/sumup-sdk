@@ -1,6 +1,6 @@
 import { Authorization } from "./authorization";
-import { MerchantProfileResponse } from "./models/merchant";
-import { checkError } from "./models/shared";
+import { MerchantProfileResponse } from "../models/merchant";
+import { checkError } from "../models/shared";
 
 
 

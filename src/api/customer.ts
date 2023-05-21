@@ -2,9 +2,20 @@
 // sumup api 
 
 import { Authorization } from "./authorization"
-import { ListCheckoutResponse } from "./models/checkout";
-import { CreateCustomerPaymentInstrumentRequest, CreateCustomerPaymentInstrumentResponse, CreateCustomerRequest, CreateCustomerResponse, DeactivateCustomerPaymentInstrumentRequest, GetCustomerRequest, GetCustomerResponse, ListCustomerPaymentInstrumentsRequest, UpdateCustomerRequest, UpdateCustomerResponse } from "./models/customer";
-import { checkError } from "./models/shared";
+import { ListCheckoutResponse } from "../models/checkout";
+import {
+    CreateCustomerPaymentInstrumentRequest,
+    CreateCustomerPaymentInstrumentResponse,
+    CreateCustomerRequest,
+    CreateCustomerResponse,
+    DeactivateCustomerPaymentInstrumentRequest,
+    GetCustomerRequest,
+    GetCustomerResponse,
+    ListCustomerPaymentInstrumentsRequest,
+    UpdateCustomerRequest,
+    UpdateCustomerResponse
+} from "../models/customer";
+import { checkError } from "../models/shared";
 
 
 

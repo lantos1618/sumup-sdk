@@ -1,10 +1,13 @@
 {
-  "name": "sumup_sdk_ts",
+  "name": "sumup-sdk",
   "version": "1.0.0",
   "description": "un-official sumup sdk for typescript",
   "main": "sumup.ts",
+  "types": "dist/sumup.d.ts",
   "scripts": {
     "start": "nodemon src/example.ts",
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
     "test": "jest --watch"
   },
   "keywords": ["sumup", "sdk", "typescript"],

@@ -1,4 +1,3 @@
-import { Checkout } from "../checkout"
 import { Currency, PersonalDetailsState } from "./shared"
 
 export type CreateCheckoutRequest = {
