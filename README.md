@@ -1,6 +1,9 @@
 # Sumup Rest api typescript
 
+This is not an official package, and is not supported by Sumup. It is a community package, and is not guaranteed to be up to date with the latest Sumup API. 
 
+
+This is not perfect, the goal is to implement the minimum required to get paid. 
 
 ## API 
 https://developer.sumup.com/docs/api/sum-up-rest-api/
@@ -49,7 +52,7 @@ https://developer.sumup.com/docs/api/sum-up-rest-api/
   - [Update a subaccount](https://developer.sumup.com/docs/api/update-a-subaccount/)
   - [Deactivate a subaccount](https://developer.sumup.com/docs/api/deactivate-a-subaccount/)
 
-This is not an official package, and is not supported by Sumup. It is a community package, and is not guaranteed to be up to date with the latest Sumup API. 
+
 
 
 TODO 
@@ -58,7 +61,6 @@ TODO
 - [ ] Add more examples
 
 
-This is not perfect, the goal is to implement the minimum required to get paid. 
 
 
 Updates:
