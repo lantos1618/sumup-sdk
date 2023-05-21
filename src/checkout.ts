@@ -38,16 +38,17 @@ export class Checkout {
     }
 
     async getCheckout(checkout: GetCheckoutRequest): Promise<CheckoutType> {
-        const queryURL = "/checkouts";
-        const queryParameters = new URLSearchParams(checkout);
-        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL + queryParameters.toString();
         const method = 'GET';
+        const queryURL = "/checkouts";
+        // const queryParameters = new URLSearchParams(checkout);
+        const url = this.authorization.getApiBaseUrl() + this.authorization.getApiVersion() + queryURL + '/' + checkout.checkout_reference;
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${(await this.authorization.getToken()).access_token}`
+        }
         const response = await fetch(url, {
             method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${(await this.authorization.getToken()).access_token}`
-            },
+            headers
         });
 
 
@@ -150,7 +151,7 @@ export class Checkout {
         // 200 means the payment was processed
         // 202 means the payment is Accepted and is being processed
 
-        const header = {
+        const headers = {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${(await this.authorization.getToken()).access_token}`
 
@@ -158,7 +159,7 @@ export class Checkout {
 
         const response = await fetch(url, {
             method,
-            headers: header,
+            headers,
             body: JSON.stringify(checkout)
         });
 
