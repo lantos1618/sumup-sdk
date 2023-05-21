@@ -1,4 +1,4 @@
-import { SumUp } from "./sumup";
+import { SumUp } from ".";
 import dotenv from 'dotenv';
 import { Currency } from "./models/shared";
 import { Authorization } from "./api/authorization";
